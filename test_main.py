@@ -152,3 +152,58 @@ def test_modulo_exponentiation_large_numbers():
     exp = 10**18
     mod = 10**9 + 7
     assert pow(base, exp, mod) == pow(base % mod, exp, mod)
+
+
+@pytest.mark.parametrize("a, mod, expected", [
+    (2, 5, 3),
+    (3, 7, 5),
+    (4, 11, 3),
+    (1, 13, 1),
+    (10, 17, 12),
+    (6, 13, 11),
+    (2, 1000000007, 500000004),
+])
+def test_modulo_inverse(a, mod, expected):
+    assert pow(a, -1, mod) == expected
+
+
+def test_modulo_inverse_verify():
+    mod = 17
+    for a in range(1, mod):
+        inv = pow(a, -1, mod)
+        assert (a * inv) % mod == 1
+
+
+def test_modulo_inverse_via_fermats_little_theorem():
+    p = 19
+    for a in range(1, p):
+        assert pow(a, -1, p) == pow(a, p - 2, p)
+
+
+def test_modulo_inverse_self_inverse():
+    mod = 17
+    assert pow(1, -1, mod) == 1
+    assert pow(mod - 1, -1, mod) == mod - 1
+
+
+def test_modulo_inverse_product():
+    mod = 13
+    a, b = 3, 5
+    inv_a = pow(a, -1, mod)
+    inv_b = pow(b, -1, mod)
+    inv_ab = pow(a * b, -1, mod)
+    assert inv_ab == (inv_a * inv_b) % mod
+
+
+def test_modulo_inverse_no_inverse():
+    with pytest.raises(ValueError):
+        pow(2, -1, 4)
+    with pytest.raises(ValueError):
+        pow(6, -1, 9)
+
+
+def test_modulo_inverse_large_number():
+    a = 10**18
+    mod = 10**9 + 7
+    inv = pow(a, -1, mod)
+    assert (a * inv) % mod == 1
