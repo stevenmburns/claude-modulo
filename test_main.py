@@ -68,3 +68,48 @@ def test_modulo_subtraction_large_numbers():
     b = 10**18 - 1
     mod = 10**9 + 7
     assert (a - b) % mod == (a % mod - b % mod) % mod
+
+
+@pytest.mark.parametrize("a, b, mod, expected", [
+    (3, 4, 5, 2),
+    (0, 5, 7, 0),
+    (6, 6, 6, 0),
+    (1, 1, 2, 1),
+    (3, 5, 7, 1),
+    (9, 9, 10, 1),
+    (999, 2, 1000, 998),
+    (7, 3, 10, 1),
+])
+def test_modulo_multiplication(a, b, mod, expected):
+    assert (a * b) % mod == expected
+
+
+def test_modulo_multiplication_commutativity():
+    assert (3 * 5) % 7 == (5 * 3) % 7
+
+
+def test_modulo_multiplication_identity():
+    assert (42 * 1) % 13 == 42 % 13
+
+
+def test_modulo_multiplication_zero():
+    assert (42 * 0) % 13 == 0
+
+
+def test_modulo_multiplication_associativity():
+    mod = 11
+    a, b, c = 5, 7, 9
+    assert ((a * b) % mod * c) % mod == (a * ((b * c) % mod)) % mod
+
+
+def test_modulo_multiplication_distributive():
+    mod = 13
+    a, b, c = 5, 7, 9
+    assert (a * (b + c)) % mod == ((a * b) % mod + (a * c) % mod) % mod
+
+
+def test_modulo_multiplication_large_numbers():
+    a = 10**18
+    b = 10**18
+    mod = 10**9 + 7
+    assert (a * b) % mod == (a % mod * (b % mod)) % mod
