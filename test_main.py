@@ -113,3 +113,42 @@ def test_modulo_multiplication_large_numbers():
     b = 10**18
     mod = 10**9 + 7
     assert (a * b) % mod == (a % mod * (b % mod)) % mod
+
+
+@pytest.mark.parametrize("base, exp, mod, expected", [
+    (2, 3, 5, 3),
+    (3, 4, 7, 4),
+    (2, 10, 1000, 24),
+    (5, 0, 7, 1),
+    (0, 5, 3, 0),
+    (7, 1, 10, 7),
+    (2, 8, 255, 1),
+    (10, 3, 6, 4),
+])
+def test_modulo_exponentiation(base, exp, mod, expected):
+    assert pow(base, exp, mod) == expected
+
+
+def test_modulo_exponentiation_matches_naive():
+    assert pow(3, 5, 7) == (3**5) % 7
+
+
+def test_modulo_exponentiation_identity():
+    assert pow(42, 1, 13) == 42 % 13
+
+
+def test_modulo_exponentiation_zero_exponent():
+    assert pow(99, 0, 13) == 1
+
+
+def test_modulo_exponentiation_fermats_little_theorem():
+    p = 17
+    for a in range(1, p):
+        assert pow(a, p - 1, p) == 1
+
+
+def test_modulo_exponentiation_large_numbers():
+    base = 10**18
+    exp = 10**18
+    mod = 10**9 + 7
+    assert pow(base, exp, mod) == pow(base % mod, exp, mod)
