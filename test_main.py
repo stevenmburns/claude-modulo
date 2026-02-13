@@ -207,3 +207,60 @@ def test_modulo_inverse_large_number():
     mod = 10**9 + 7
     inv = pow(a, -1, mod)
     assert (a * inv) % mod == 1
+
+
+def mod_div(a, b, mod):
+    return (a * pow(b, -1, mod)) % mod
+
+
+@pytest.mark.parametrize("a, b, mod, expected", [
+    (6, 3, 7, 2),
+    (10, 5, 13, 2),
+    (0, 3, 7, 0),
+    (1, 1, 11, 1),
+    (15, 5, 17, 3),
+    (8, 4, 5, 2),
+    (7, 7, 13, 1),
+    (9, 3, 11, 3),
+])
+def test_modulo_division(a, b, mod, expected):
+    assert mod_div(a, b, mod) == expected
+
+
+def test_modulo_division_verify():
+    mod = 17
+    a, b = 10, 3
+    result = mod_div(a, b, mod)
+    assert (result * b) % mod == a % mod
+
+
+def test_modulo_division_self():
+    mod = 13
+    for a in range(1, mod):
+        assert mod_div(a, a, mod) == 1
+
+
+def test_modulo_division_by_one():
+    mod = 11
+    for a in range(mod):
+        assert mod_div(a, 1, mod) == a % mod
+
+
+def test_modulo_division_zero_numerator():
+    assert mod_div(0, 5, 13) == 0
+    assert mod_div(0, 99, 17) == 0
+
+
+def test_modulo_division_no_inverse():
+    with pytest.raises(ValueError):
+        mod_div(6, 4, 8)
+    with pytest.raises(ValueError):
+        mod_div(10, 6, 9)
+
+
+def test_modulo_division_large_numbers():
+    a = 10**18
+    b = 10**9 + 3
+    mod = 10**9 + 7
+    result = mod_div(a, b, mod)
+    assert (result * b) % mod == a % mod
