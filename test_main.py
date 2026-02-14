@@ -1,3 +1,5 @@
+from math import gcd
+
 import pytest
 
 
@@ -222,6 +224,90 @@ def test_modulo_inverse_large_number():
     mod = 10**9 + 7
     inv = pow(a, -1, mod)
     assert (a * inv) % mod == 1
+
+
+def crt(remainders, moduli):
+    """Solve a system of congruences using the Chinese Remainder Theorem.
+
+    Given x ≡ r_i (mod m_i) for pairwise coprime m_i,
+    returns (x, M) where x is the unique solution mod M = prod(m_i).
+    """
+    M = 1
+    for m in moduli:
+        M *= m
+    x = 0
+    for r, m in zip(remainders, moduli):
+        Mi = M // m
+        x += r * Mi * pow(Mi, -1, m)
+    return x % M, M
+
+
+@pytest.mark.parametrize(
+    "remainders, moduli, expected",
+    [
+        ([2, 3, 2], [3, 5, 7], 23),
+        ([0, 0], [3, 5], 0),
+        ([1, 1, 1], [2, 3, 5], 1),
+        ([1, 2, 3], [5, 7, 11], 366),
+        ([2, 3], [3, 7], 17),
+        ([0, 1], [2, 3], 4),
+        ([3, 4, 5], [7, 11, 13], 213),
+        ([1, 2, 3, 4], [5, 7, 9, 11], 1731),
+    ],
+)
+def test_crt(remainders, moduli, expected):
+    x, _ = crt(remainders, moduli)
+    assert x == expected
+
+
+def test_crt_satisfies_congruences():
+    remainders = [2, 3, 2]
+    moduli = [3, 5, 7]
+    x, _ = crt(remainders, moduli)
+    for r, m in zip(remainders, moduli):
+        assert x % m == r
+
+
+def test_crt_uniqueness():
+    remainders = [1, 2, 3]
+    moduli = [5, 7, 11]
+    x, M = crt(remainders, moduli)
+    assert M == 5 * 7 * 11
+    assert 0 <= x < M
+
+
+def test_crt_two_moduli():
+    x, M = crt([2, 3], [5, 7])
+    assert M == 35
+    assert x % 5 == 2
+    assert x % 7 == 3
+
+
+def test_crt_all_zero_remainders():
+    x, M = crt([0, 0, 0], [3, 5, 7])
+    assert x == 0
+    assert M == 105
+
+
+def test_crt_single_congruence():
+    x, M = crt([4], [7])
+    assert x == 4
+    assert M == 7
+
+
+def test_crt_large_moduli():
+    moduli = [1000000007, 1000000009, 998244353]
+    remainders = [123456789, 987654321, 111111111]
+    x, M = crt(remainders, moduli)
+    for r, m in zip(remainders, moduli):
+        assert x % m == r
+    assert M == moduli[0] * moduli[1] * moduli[2]
+
+
+def test_crt_coprime_requirement():
+    """CRT requires pairwise coprime moduli; non-coprime may give wrong results."""
+    moduli = [6, 10]
+    assert gcd(moduli[0], moduli[1]) != 1
 
 
 def mod_div(a, b, mod):
