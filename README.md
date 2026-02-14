@@ -10,6 +10,7 @@ A Python project exploring modular arithmetic operations, with a comprehensive t
 - **Exponentiation** – identity, zero exponent, Fermat's little theorem
 - **Modular inverse** – verification, Fermat's little theorem equivalence, non-existent inverses
 - **Modular division** – verification, self-division, division by one, non-existent inverses
+- **Chinese Remainder Theorem** – congruence satisfaction, uniqueness, large moduli, coprime requirement
 
 All operations are tested with large numbers (10^18) to verify correctness at scale.
 
@@ -18,7 +19,7 @@ All operations are tested with large numbers (10^18) to verify correctness at sc
 ```bash
 python -m venv venv
 source venv/bin/activate
-pip install pytest
+pip install pytest ruff
 ```
 
 ## Running tests
@@ -27,4 +28,12 @@ pip install pytest
 pytest
 pytest -v          # verbose output
 pytest -k test_modulo_addition   # run a specific test
+```
+
+## Linting
+
+```bash
+ruff check .            # lint
+ruff format --check .   # check formatting
+ruff format .           # auto-format
 ```
