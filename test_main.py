@@ -1,16 +1,19 @@
 import pytest
 
 
-@pytest.mark.parametrize("a, b, mod, expected", [
-    (3, 4, 5, 2),
-    (0, 0, 7, 0),
-    (6, 6, 6, 0),
-    (1, 1, 2, 0),
-    (10, 15, 7, 4),
-    (0, 5, 3, 2),
-    (999, 1, 1000, 0),
-    (7, 3, 10, 0),
-])
+@pytest.mark.parametrize(
+    "a, b, mod, expected",
+    [
+        (3, 4, 5, 2),
+        (0, 0, 7, 0),
+        (6, 6, 6, 0),
+        (1, 1, 2, 0),
+        (10, 15, 7, 4),
+        (0, 5, 3, 2),
+        (999, 1, 1000, 0),
+        (7, 3, 10, 0),
+    ],
+)
 def test_modulo_addition(a, b, mod, expected):
     assert (a + b) % mod == expected
 
@@ -36,16 +39,19 @@ def test_modulo_addition_large_numbers():
     assert (a + b) % mod == (a % mod + b % mod) % mod
 
 
-@pytest.mark.parametrize("a, b, mod, expected", [
-    (7, 3, 5, 4),
-    (0, 0, 7, 0),
-    (6, 6, 6, 0),
-    (1, 1, 2, 0),
-    (15, 10, 7, 5),
-    (5, 0, 3, 2),
-    (1000, 1, 1000, 999),
-    (3, 7, 10, 6),
-])
+@pytest.mark.parametrize(
+    "a, b, mod, expected",
+    [
+        (7, 3, 5, 4),
+        (0, 0, 7, 0),
+        (6, 6, 6, 0),
+        (1, 1, 2, 0),
+        (15, 10, 7, 5),
+        (5, 0, 3, 2),
+        (1000, 1, 1000, 999),
+        (3, 7, 10, 6),
+    ],
+)
 def test_modulo_subtraction(a, b, mod, expected):
     assert (a - b) % mod == expected
 
@@ -70,16 +76,19 @@ def test_modulo_subtraction_large_numbers():
     assert (a - b) % mod == (a % mod - b % mod) % mod
 
 
-@pytest.mark.parametrize("a, b, mod, expected", [
-    (3, 4, 5, 2),
-    (0, 5, 7, 0),
-    (6, 6, 6, 0),
-    (1, 1, 2, 1),
-    (3, 5, 7, 1),
-    (9, 9, 10, 1),
-    (999, 2, 1000, 998),
-    (7, 3, 10, 1),
-])
+@pytest.mark.parametrize(
+    "a, b, mod, expected",
+    [
+        (3, 4, 5, 2),
+        (0, 5, 7, 0),
+        (6, 6, 6, 0),
+        (1, 1, 2, 1),
+        (3, 5, 7, 1),
+        (9, 9, 10, 1),
+        (999, 2, 1000, 998),
+        (7, 3, 10, 1),
+    ],
+)
 def test_modulo_multiplication(a, b, mod, expected):
     assert (a * b) % mod == expected
 
@@ -115,16 +124,19 @@ def test_modulo_multiplication_large_numbers():
     assert (a * b) % mod == (a % mod * (b % mod)) % mod
 
 
-@pytest.mark.parametrize("base, exp, mod, expected", [
-    (2, 3, 5, 3),
-    (3, 4, 7, 4),
-    (2, 10, 1000, 24),
-    (5, 0, 7, 1),
-    (0, 5, 3, 0),
-    (7, 1, 10, 7),
-    (2, 8, 255, 1),
-    (10, 3, 6, 4),
-])
+@pytest.mark.parametrize(
+    "base, exp, mod, expected",
+    [
+        (2, 3, 5, 3),
+        (3, 4, 7, 4),
+        (2, 10, 1000, 24),
+        (5, 0, 7, 1),
+        (0, 5, 3, 0),
+        (7, 1, 10, 7),
+        (2, 8, 255, 1),
+        (10, 3, 6, 4),
+    ],
+)
 def test_modulo_exponentiation(base, exp, mod, expected):
     assert pow(base, exp, mod) == expected
 
@@ -154,15 +166,18 @@ def test_modulo_exponentiation_large_numbers():
     assert pow(base, exp, mod) == pow(base % mod, exp, mod)
 
 
-@pytest.mark.parametrize("a, mod, expected", [
-    (2, 5, 3),
-    (3, 7, 5),
-    (4, 11, 3),
-    (1, 13, 1),
-    (10, 17, 12),
-    (6, 13, 11),
-    (2, 1000000007, 500000004),
-])
+@pytest.mark.parametrize(
+    "a, mod, expected",
+    [
+        (2, 5, 3),
+        (3, 7, 5),
+        (4, 11, 3),
+        (1, 13, 1),
+        (10, 17, 12),
+        (6, 13, 11),
+        (2, 1000000007, 500000004),
+    ],
+)
 def test_modulo_inverse(a, mod, expected):
     assert pow(a, -1, mod) == expected
 
@@ -213,16 +228,19 @@ def mod_div(a, b, mod):
     return (a * pow(b, -1, mod)) % mod
 
 
-@pytest.mark.parametrize("a, b, mod, expected", [
-    (6, 3, 7, 2),
-    (10, 5, 13, 2),
-    (0, 3, 7, 0),
-    (1, 1, 11, 1),
-    (15, 5, 17, 3),
-    (8, 4, 5, 2),
-    (7, 7, 13, 1),
-    (9, 3, 11, 3),
-])
+@pytest.mark.parametrize(
+    "a, b, mod, expected",
+    [
+        (6, 3, 7, 2),
+        (10, 5, 13, 2),
+        (0, 3, 7, 0),
+        (1, 1, 11, 1),
+        (15, 5, 17, 3),
+        (8, 4, 5, 2),
+        (7, 7, 13, 1),
+        (9, 3, 11, 3),
+    ],
+)
 def test_modulo_division(a, b, mod, expected):
     assert mod_div(a, b, mod) == expected
 
