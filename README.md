@@ -1,5 +1,7 @@
 # claude-modulo
 
+[![CI](https://github.com/stevenmburns/claude-modulo/actions/workflows/ci.yml/badge.svg)](https://github.com/stevenmburns/claude-modulo/actions/workflows/ci.yml)
+
 A Python project exploring modular arithmetic operations, with a comprehensive test suite covering:
 
 - **Addition** – commutativity, identity, associativity
