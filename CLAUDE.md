@@ -11,9 +11,12 @@ A Python project exploring modular arithmetic operations. The main entry point (
 - **Run all tests:** `pytest`
 - **Run a single test by name:** `pytest -k test_modulo_addition`
 - **Run with verbose output:** `pytest -v`
+- **Lint:** `ruff check .`
+- **Format check:** `ruff format --check .`
+- **Auto-format:** `ruff format .`
 
 ## Environment
 
 - Python 3.14, managed via a local `venv/` virtualenv
-- Only dependency: `pytest`
+- Dependencies: `pytest`, `ruff`
 - Activate venv: `source venv/bin/activate`
